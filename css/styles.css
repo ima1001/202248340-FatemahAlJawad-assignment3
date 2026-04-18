@@ -891,6 +891,20 @@ body.light-mode #scroll-nav p {
     color: rgba(26,34,51,0.4);
 }
 
+body.light-mode .countdown-unit {
+    background: rgba(26,34,51,0.06);
+    border-color: rgba(26,34,51,0.1);
+}
+
+body.light-mode .countdown-num {
+    color: #1a2233;
+}
+
+body.light-mode .countdown-eyebrow,
+body.light-mode .countdown-label {
+    color: rgba(26,34,51,0.4);
+}
+
 
 @media (max-width: 768px) {
 
