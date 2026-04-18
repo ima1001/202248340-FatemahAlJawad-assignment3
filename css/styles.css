@@ -767,7 +767,7 @@ html, body {
     color: white !important;
 }
 
-/* ── Light Mode (Cool Blue-Gray) ─────────── */
+/* ── Light Mode ─────────── */
 body.light-mode {
     background: #dde3ed;
     color: #1a2233;
@@ -782,6 +782,19 @@ body.light-mode .name {
 body.light-mode .panel.dark {
     background: #d4dae6;
     color: #1a2233;
+}
+
+body.light-mode #main-nav {
+    background: rgba(216, 223, 235, 0.92) !important;
+    border-bottom: 0.5px solid rgba(0,0,0,0.08);
+}
+
+body.light-mode #main-nav .nav-link {
+    color: rgba(26,34,51,0.6) !important;
+}
+
+body.light-mode #main-nav .nav-link:hover {
+    color: #1a2233 !important;
 }
 
 
