@@ -863,6 +863,22 @@ body.light-mode #weather-meta {
     color: rgba(26,34,51,0.5);
 }
 
+body.light-mode .filter-btn {
+    border-color: rgba(26,34,51,0.2);
+    color: rgba(26,34,51,0.55);
+}
+
+body.light-mode .filter-btn:hover {
+    border-color: rgba(26,34,51,0.5);
+    color: rgba(26,34,51,0.85);
+}
+
+body.light-mode .filter-btn.active {
+    background: #1a2233;
+    color: white;
+    border-color: #1a2233;
+}
+
 
 @media (max-width: 768px) {
 
