@@ -797,6 +797,30 @@ body.light-mode #main-nav .nav-link:hover {
     color: #1a2233 !important;
 }
 
+body.light-mode .timeline-card,
+body.light-mode .skill-card {
+    background: #dde3ed;
+    border-color: rgba(0,0,0,0.07);
+}
+
+body.light-mode .school-name,
+body.light-mode .section-heading {
+    color: #1a2233;
+}
+
+body.light-mode .project-card {
+    background: #dde3ed !important;
+    border-color: rgba(0,0,0,0.07) !important;
+}
+
+body.light-mode .card-name {
+    color: #1a2233 !important;
+}
+
+body.light-mode .card-desc {
+    color: rgba(26,34,51,0.55);
+}
+
 
 @media (max-width: 768px) {
 
