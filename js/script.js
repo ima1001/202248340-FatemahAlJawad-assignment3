@@ -125,8 +125,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    loadWeather();
-
     // ── Dark Mode Toggle ─────────────────────────────────
     const themeToggle = document.getElementById('theme-toggle');
 
@@ -142,4 +140,5 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
     });
 
+    loadWeather();
 });
