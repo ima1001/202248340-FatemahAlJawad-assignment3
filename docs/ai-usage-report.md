@@ -1,14 +1,16 @@
 # AI Usage Report
 
-**Course:** Web Development  
-**Assignment:** Assignment 2 — Interactive Portfolio Website  
-**Student:** Fatemah Al Jawad  
+**Course:** Web Development
+**Assignment:** Assignment 3 — Advanced Functionality
+**Student:** Fatemah Al Jawad
 
 ---
 
 ## Overview
 
-This report documents how AI tools were used during the development of my personal portfolio website for Assignment 2. Two AI tools were used: **Claude (claude.ai)** and **GitHub Copilot**. Both were used to support and accelerate development — all output was reviewed, understood, and adapted before being included in the project.
+This report documents how AI tools were used during the development of Assignment 3, which extends the portfolio website from Assignment 2 with API integration, advanced JavaScript features, state management, and performance improvements.
+
+Two AI tools were used: **Claude (claude.ai)** and **GitHub Copilot**. All output was reviewed, understood, and adapted before being included in the project.
 
 ---
 
@@ -16,7 +18,7 @@ This report documents how AI tools were used during the development of my person
 
 | Tool | Provider | Primary Use |
 |---|---|---|
-| Claude (claude.ai) | Anthropic | Design guidance, debugging, code generation, explanations |
+| Claude (claude.ai) | Anthropic | Architecture decisions, debugging, code generation, explanations |
 | GitHub Copilot | GitHub / Microsoft | In-editor code completion, repetitive code patterns |
 
 ---
@@ -25,219 +27,164 @@ This report documents how AI tools were used during the development of my person
 
 ### How it was used
 
-Claude was used conversationally throughout the project. I shared my actual code, described problems I was facing, and iterated based on Claude's feedback. I did not copy output directly — I adapted suggestions to fit my design and learned from the explanations.
+Claude was used conversationally throughout the project. I shared my actual code files, described problems I encountered, and iterated based on Claude's suggestions. I did not copy output directly — I adapted suggestions to fit my design and asked follow-up questions to understand the reasoning.
 
 ---
 
-### 1. Hero Section Background
+### 1. Weather API Integration
 
-**What I asked:** I wanted something better than a plain photo background for the hero section.
+**What I asked:** How to integrate the OpenWeatherMap API into my existing portfolio without breaking the layout.
 
-**What Claude suggested:** Using CSS `::before` and `::after` pseudo-elements to layer a dot grid and a purple glow on top of a dark background — no image file needed.
-
-**What ended up in my code:**
-```css
-.name::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
-    background-size: 24px 24px;
-}
-
-.name::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at center, rgba(80,100,180,0.18) 0%, transparent 70%);
-}
-```
-
-**What I learned:** How CSS pseudo-elements work as invisible layered divs, and how `radial-gradient` can create both dot patterns and soft glows.
-
----
-
-### 2. Navbar Styling
-
-**What I asked:** I was unhappy with the default Bootstrap navbar appearance (white background, didn't match my dark theme).
-
-**What Claude suggested:** Overriding Bootstrap's navbar with a dark semi-transparent background and `backdrop-filter: blur()` for a frosted glass effect.
-
-**What ended up in my code:**
-```css
-#main-nav {
-    background: rgba(13, 17, 23, 0.85) !important;
-    backdrop-filter: blur(10px);
-    border-bottom: 0.5px solid rgba(255,255,255,0.08);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-```
-
-**What I learned:** How `backdrop-filter` works, and why `!important` is sometimes necessary to override Bootstrap's default styles.
-
----
-
-### 3. Project Filter Feature
-
-**What I asked:** How to implement a category filter so users can show only Java, Database, Hardware, AI, or Web projects.
-
-**What Claude suggested:** Using `data-category` on each card and `data-filter` on each button, then toggling a `hidden` class with JavaScript.
-
-**What ended up in my HTML:**
-```html
-<div class="card project-card" data-category="java">
-<button class="filter-btn active" data-filter="all">All</button>
-```
-
-**What ended up in my JS:**
-```javascript
-const filterBtns = document.querySelectorAll('.filter-btn');
-const projectCards = document.querySelectorAll('.project-card');
-
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', function () {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        const selected = this.dataset.filter;
-        projectCards.forEach(card => {
-            if (selected === 'all' || card.dataset.category === selected) {
-                card.classList.remove('hidden');
-            } else {
-                card.classList.add('hidden');
-            }
-        });
-    });
-});
-```
-
-**What I learned:** How `data-*` attributes work in HTML and how to read them in JavaScript using `dataset`. Also how toggling CSS classes is cleaner than directly manipulating styles.
-
----
-
-### 4. Form Validation & Feedback
-
-**What I asked:** Help improving my form validation and making the feedback messages look better.
-
-**What Claude identified:** My original code had two nested `DOMContentLoaded` listeners — meaning the filter code never actually ran. Claude also suggested using a styled `<span>` with CSS classes instead of plain text color changes.
+**What Claude suggested:** Using the `/data/2.5/weather` endpoint with a `fetch()` call inside an `async` function, mapping weather condition IDs to emojis, and handling loading/error/success states with CSS class toggling.
 
 **What ended up in my code:**
 ```javascript
-// Single DOMContentLoaded wrapping all JS
-document.addEventListener("DOMContentLoaded", function () {
-    // form code here
-    // filter code here — no longer nested
+async function loadWeather() {
+    const apiKey = CONFIG.WEATHER_API_KEY;
+    const city   = 'Dhahran';
+    const url    = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error('API error');
+        const data = await res.json();
+
+        document.getElementById('weather-emoji').textContent = getWeatherEmoji(data.weather[0].id);
+        document.getElementById('weather-temp').textContent  = `${Math.round(data.main.temp)}°C`;
+        // ...
+
+        loading.classList.add('hidden');
+        error.classList.add('hidden');
+        content.classList.remove('hidden');
+
+    } catch (err) {
+        loading.classList.add('hidden');
+        error.classList.remove('hidden');
+    }
+}
+```
+
+**What I learned:** How `async/await` works with `fetch()`, how to handle HTTP error codes with `res.ok`, and how to structure loading/error/success UI states cleanly.
+
+---
+
+### 2. API Key Handling
+
+**What I asked:** How to avoid hardcoding my API key in the source code before committing to a public GitHub repo.
+
+**What Claude explained:** Frontend-only projects cannot truly hide API keys since everything runs in the browser. Claude walked me through the realistic options: restricting the key by domain in the OpenWeatherMap dashboard, separating it into a `config.js` file excluded via `.gitignore`, and including a `config.example.js` as a template for anyone cloning the repo.
+
+**What ended up in my project:**
+```
+js/
+├── config.js          ← in .gitignore, contains real key
+└── config.example.js  ← committed, contains placeholder
+```
+
+```
+// .gitignore
+js/config.js
+```
+
+**What I learned:** Why `.env` files don't work in browser-only projects (no build step), and the standard professional approach to this limitation at the frontend level.
+
+---
+
+### 3. Graduation Countdown Timer
+
+**What I asked:** How to build a live countdown timer that updates every second.
+
+**What Claude suggested:** Using `setInterval` with a 1000ms interval, calculating the difference between the target date and `new Date()`, and using `Math.floor` with modulo arithmetic to extract days, hours, minutes, and seconds.
+
+**What ended up in my code:**
+```javascript
+const graduationDate = new Date('2027-05-15T00:00:00');
+
+function updateCountdown() {
+    const diff = graduationDate - new Date();
+    const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cd-days').textContent    = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent   = String(hours).padStart(2, '0');
+    document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('cd-seconds').textContent = String(seconds).padStart(2, '0');
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+```
+
+**What I learned:** How JavaScript `Date` arithmetic works, how `setInterval` creates recurring execution, and how `padStart` formats numbers with leading zeros.
+
+---
+
+### 4. Dark / Light Mode with localStorage
+
+**What I asked:** How to implement a theme toggle that remembers the user's preference across page reloads.
+
+**What Claude suggested:** Toggling a `light-mode` class on `document.body`, storing the preference with `localStorage.setItem`, and restoring it on load with `localStorage.getItem`.
+
+**What ended up in my code:**
+```javascript
+const themeToggle = document.getElementById('theme-toggle');
+
+if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light-mode');
+    themeToggle.textContent = '🌙';
+}
+
+themeToggle.addEventListener('click', function () {
+    document.body.classList.toggle('light-mode');
+    const isLight = document.body.classList.contains('light-mode');
+    themeToggle.textContent = isLight ? '🌙' : '☀️';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
 });
 ```
 
-```css
-.form-message.fail {
-    background-color: #ffe0e0;
-    color: #a62d31;
-}
-.form-message.success {
-    background-color: #ddffe8;
-    color: #0d7a3c;
-}
-```
-
-**What I learned:** Why nested event listeners are a bug, and how CSS class-based state management is cleaner than imperative style changes.
+**What I learned:** How `localStorage` persists data between browser sessions, and how to design a full theme system using a single body class with CSS overrides.
 
 ---
 
-### 5. Education Timeline
+### 5. Debugging — Null classList Error
 
-**What I asked:** How to build a visual dashed timeline with circles representing each education entry.
+**What I asked:** Why I was getting `Cannot read properties of null (reading 'classList')` in loadWeather.
 
-**What Claude suggested:** Using `::before` on `.timeline` for the dashed line via `repeating-linear-gradient`, and absolutely positioned `.timeline-dot` elements for the circles.
+**What Claude identified:** The weather `<footer>` HTML was accidentally placed after the closing `</body>` tag due to messy nesting in the contact section. When `loadWeather()` ran, the DOM elements didn't exist yet — not because of a JS timing issue, but because the HTML itself was outside `<body>` and therefore never parsed into the DOM.
 
-**What ended up in my code:**
-```css
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 7px;
-    top: 8px;
-    bottom: 8px;
-    width: 1.5px;
-    background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.25) 0px,
-        rgba(255,255,255,0.25) 6px,
-        transparent 6px,
-        transparent 12px
-    );
-}
+**What I fixed:** Cleaned up the broken closing tag structure in the contact section and moved the footer to the correct position inside `<body>`.
 
-.timeline-dot {
-    position: absolute;
-    left: -32px;
-    top: 6px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-}
-```
-
-**What I learned:** How `repeating-linear-gradient` creates dashed lines, and how `position: absolute` inside a `position: relative` parent is used to overlay decorative elements precisely.
+**What I learned:** How browser HTML parsing works — elements outside `<body>` are either ignored or moved unpredictably. Valid HTML structure is a prerequisite for reliable JavaScript.
 
 ---
 
-### 6. Project Cards & Skills Layout
+### 6. CSS Layout Fixes
 
-**What I asked:** How to make project cards consistent in height and well laid out in a grid.
+**What I asked:** Help fixing several visual bugs that appeared after adding new features.
 
-**What Claude suggested:** Using CSS Grid with `auto-fill` and `minmax`, capping description text with `-webkit-line-clamp`, and using `flex-grow: 1` on the description to push badges to the bottom.
+**Issues Claude identified and helped fix:**
 
-**What ended up in my code:**
-```css
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    width: 100%;
-}
-
-.card-desc {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    flex-grow: 1;
-}
-```
-
-**What I learned:** How `-webkit-line-clamp` truncates text to a fixed number of lines, and how `flex-grow` distributes space inside a flex column to keep card bottoms aligned.
-
----
-
-### 7. Debugging & Bug Fixes
-
-Throughout development I shared code with Claude when something wasn't working. Key bugs identified:
-
-| Bug | Root Cause | Fix Applied |
+| Bug | Cause | Fix |
 |---|---|---|
-| Skill badges had no color | Global `button {}` rule overriding `.skill-badge` | Changed to `button:not(.skill-badge):not(.filter-btn):not(.btn)` |
-| Project filter not working | Two nested `DOMContentLoaded` listeners | Merged all JS into one listener |
-| Contact section not side by side | `simple-form` had `width: 100%` breaking flex row | Changed to `width: 380px` with `flex-shrink: 0` |
-| Skills grid broken | `.skills-grid` defined twice with conflicting values | Removed duplicate CSS rule |
-| Badges unstyled | Using `id="pCat"` on multiple elements (IDs must be unique) | Changed to `class="pCat"` |
-| Projects section clipping content | `.panel` had `position: sticky` and `height: 100vh` | Added `position: relative` and `height: auto` to `#projects` |
+| Skills cards overflowing horizontally | `width: 25rem` inline style fighting CSS grid | Removed inline width, used CSS class instead |
+| Hero content invisible | `.name` had `height: 100vh` with no padding, clipping content | Added `min-height`, `height: auto`, and padding |
+| Theme toggle showing as dark blob | Base `button {}` rule not excluding `#theme-toggle` | Added `:not(#theme-toggle)` to the selector |
+| Weather widget showing error alongside data | Error div not being explicitly hidden on success | Added `error.classList.add('hidden')` in the try block |
+| About section visually merging with hero | No visual separator between sections | Added `border-top` to `#about` |
 
 ---
 
-### 8. Code Quality Review
+### 7. Light Mode Color Design
 
-**What I asked:** Claude to review my HTML and CSS for structural issues.
+**What I asked:** Help designing a cohesive light mode color scheme — I rejected the first version (too white/flat) and asked for a cool blue-gray direction.
 
-**What Claude identified:**
-- `<image>` is not a valid HTML tag — should be `<img>`
-- Scripts were placed before page content inside `<body>` instead of at the bottom
-- Duplicate CSS selectors (`#skills` and `.skills-grid` defined twice)
-- Mismatched closing `</div>` tags in the skills and contact sections
+**What Claude generated:** A layered blue-gray palette using `#e8edf5`, `#d4dae6`, and `#dde3ed` as background layers, with `#1a2233` as the primary text color, producing a muted, cloudy-day feel that complements the dark mode aesthetic.
 
-**What I did:** Fixed all issues and used VS Code's auto-format (`Shift + Alt + F`) to keep indentation consistent going forward.
+**What I modified:** Iterated on several specific components (skill cards, weather widget, section eyebrows) after seeing the result in the browser, providing feedback until each element looked right.
+
+**What I learned:** How to design a complete theme system where every component needs an explicit override, and how layering slightly different background tones creates visual depth in a flat design.
 
 ---
 
@@ -245,56 +192,61 @@ Throughout development I shared code with Claude when something wasn't working. 
 
 ### How it was used
 
-GitHub Copilot was used directly inside VS Code as an inline suggestion tool. It did not explain concepts — it suggested code as I typed, which I then accepted, rejected, or modified.
-
----
+GitHub Copilot was used inside VS Code for inline completions. It did not explain concepts — it suggested code as I typed, which I accepted, rejected, or modified.
 
 ### 1. Repetitive HTML Structures
+After writing the first countdown unit (`<div class="countdown-unit">`), Copilot suggested the remaining three with correct IDs. I verified each one before accepting.
 
-**Situation:** Writing multiple project cards and skill badges, each with the same structure but different content.
-
-**What Copilot did:** After I wrote the first project card, Copilot suggested the full structure of the next card automatically. I filled in the correct content (project name, description, badges) for each.
-
-**Example:** After writing the Facelite card structure, Copilot suggested a nearly identical structure for the Quadtree Compression card, which I accepted and updated with the correct details.
+### 2. CSS Property Completion
+When writing light mode overrides, Copilot suggested property values based on patterns already in the file — for example, suggesting `rgba(26,34,51,0.4)` for secondary text after seeing it used elsewhere.
 
 ---
 
-### 2. Consistent Edits Across Similar Elements
+## Benefits & Challenges
 
-**Situation:** When I changed a class name or attribute on one element and needed to apply the same change to all similar elements.
+### Benefits
+- Claude significantly reduced the time spent on boilerplate code for the API integration
+- Having Claude explain *why* something fails (not just what to fix) helped me understand the underlying concepts rather than just applying patches
+- The iterative back-and-forth with real code — rather than abstract examples — produced solutions that fit my project without requiring heavy adaptation
 
-**What Copilot did:** Detected the pattern and suggested the same edit on subsequent similar elements. For example, when I changed `id="pCat"` to `class="pCat"` on one badge button, Copilot suggested the same change on the following badge buttons.
-
-**What I did:** Reviewed each suggestion before accepting to confirm it was contextually correct.
-
----
-
-### 3. CSS Property Completion
-
-**Situation:** Writing CSS rules with multiple properties.
-
-**What Copilot did:** Suggested common property-value pairs based on the selector context. For example, after typing `border-radius:` on a badge element, it suggested `999px` because it detected other pill-shaped elements in the file.
+### Challenges
+- The API key situation required multiple clarifications to understand why `.env` files don't apply to frontend-only projects
+- Some Claude suggestions introduced bugs (e.g. the countdown code was initially suggested inside the wrong scope), requiring careful review before applying
+- Light mode required several rounds of iteration — AI-generated color schemes need to be tested in a real browser, not just evaluated on paper
 
 ---
 
-## Reflection
+## Responsible Use & Modifications
 
-Using AI tools in this project helped me work faster and understand concepts more deeply. Claude was most valuable for explaining *why* something works — not just giving code, but reasoning through the problem. GitHub Copilot was most useful for *speed* — reducing repetitive typing on similar structures.
+All AI suggestions were:
+1. **Read and understood** before being applied — not copy-pasted blindly
+2. **Tested in the browser** to confirm they worked as described
+3. **Modified where needed** to fit the actual project structure and design
+4. **Caught and corrected** in several cases where the suggestion introduced a new bug
 
-The most important habit I developed is treating AI suggestions critically. Every suggestion required evaluation: Does this fit my design? Do I understand what it does? Is it correct in this specific context? In several cases (like the nested `DOMContentLoaded` bug), the AI also helped me find mistakes I had made myself — which required understanding the code well enough to recognize the problem when it was pointed out.
+The code architecture, design decisions, content, and project direction are entirely my own. AI was used as a tool to accelerate implementation and explain concepts — not as a replacement for understanding.
+
+---
+
+## Learning Outcomes
+
+- Understood how `async/await` and `fetch()` work in practice, including error handling
+- Learned why API keys cannot be truly hidden in frontend-only projects and the professional workarounds
+- Understood `localStorage` as a simple key-value store for persisting user preferences
+- Strengthened debugging skills — particularly tracing null reference errors back to HTML structure problems
+- Learned how to design a complete CSS theme system using a single class toggle on `<body>`
 
 ---
 
 ## Summary Table
 
-| Area | Claude | Copilot | Done Manually |
+| Feature | Claude | Copilot | Done Manually |
 |---|---|---|---|
-| Design decisions | Suggestions provided | — | Final choices were mine |
-| Hero background | Generated | — | Adjusted values |
-| Navbar styling | Generated | — | Color choices mine |
-| Project filter JS | Pattern provided | — | Written and integrated |
-| Form validation | Debugged and improved | — | Original code was mine |
-| Timeline CSS | Generated | — | Adapted to my theme |
-| HTML structure | Reviewed and fixed | Repetitive elements | Writing and organizing |
-| CSS layout | Generated | Property completion | Customization |
-| Content (text, projects) | — | — | Entirely manual |
+| Weather API integration | Architecture + code | — | Integration into existing layout |
+| API key handling | Explained approach | — | Implementation and .gitignore setup |
+| Graduation countdown | Pattern provided | — | Date choice, styling |
+| Dark/light mode | Code generated | Property completion | Color palette iteration |
+| Light mode colors | Generated, iterated | — | Final color decisions |
+| Debugging (null error) | Root cause identified | — | HTML structure fix |
+| CSS layout fixes | Identified + fixed | — | Testing and verification |
+| Content (text, projects) | — | — | Entirely manual |s
