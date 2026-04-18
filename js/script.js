@@ -131,9 +131,9 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById('weather-wind').textContent     = `💨 ${Math.round(data.wind.speed * 3.6)} km/h`;
 
             loading.classList.add('hidden');
-            error.classList.add('hidden');
             content.classList.remove('hidden');
-
+            error.classList.add('hidden');
+            
         } catch (err) {
             loading.classList.add('hidden');
             content.classList.add('hidden');
