@@ -905,7 +905,35 @@ body.light-mode .countdown-label {
     color: rgba(26,34,51,0.4);
 }
 
+body.light-mode .section-eyebrow {
+    color: rgba(26,34,51,0.4);
+}
 
+body.light-mode .contact-sub {
+    color: rgba(26,34,51,0.55);
+}
+
+body.light-mode .meta-item {
+    color: rgba(26,34,51,0.45);
+}
+
+body.light-mode .meta-item span {
+    color: rgba(26,34,51,0.8);
+}
+
+body.light-mode .school-deg {
+    color: rgba(26,34,51,0.5);
+}
+
+body.light-mode #theme-toggle {
+    border-color: rgba(26,34,51,0.2) !important;
+    color: rgba(26,34,51,0.7) !important;
+}
+
+body.light-mode #theme-toggle:hover {
+    border-color: rgba(26,34,51,0.5) !important;
+    color: #1a2233 !important;
+}
 @media (max-width: 768px) {
 
     .name h1 {
