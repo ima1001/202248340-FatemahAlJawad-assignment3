@@ -76,6 +76,14 @@ button:not(.skill-badge):not(.filter-btn):not(.btn):not(#theme-toggle):hover {
     color: white !important;
 }
 
+#main-nav .navbar-toggler {
+    border-color: rgba(255,255,255,0.4) !important;
+}
+
+#main-nav .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255,255,255,0.8%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
 /* ── Header Section ─────────────────── */
 .name {
     position: relative;
@@ -83,6 +91,12 @@ button:not(.skill-badge):not(.filter-btn):not(.btn):not(#theme-toggle):hover {
     background: #0d1117;
     overflow: hidden;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    min-height: 100vh;
+    height: auto;
+    padding: 100px 20px 60px;
 }
 
 .name::before {
@@ -122,6 +136,7 @@ button:not(.skill-badge):not(.filter-btn):not(.btn):not(#theme-toggle):hover {
     height: auto;
     min-height: 60vh;
     scroll-snap-align: none;
+    border-top: 0.5px solid rgba(255,255,255,0.08);
 }
 
 #education {
@@ -813,6 +828,14 @@ body.light-mode #main-nav .nav-link:hover {
     color: #1a2233 !important;
 }
 
+body.light-mode #main-nav .navbar-toggler {
+    border-color: rgba(26,34,51,0.4) !important;
+}
+
+body.light-mode #main-nav .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2826,34,51,0.8%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
 body.light-mode .timeline-card,
 body.light-mode .skill-card {
     background: #dde3ed;
@@ -958,6 +981,10 @@ body.light-mode .skill-card {
 
 body.light-mode .skill-card-title {
     color: rgba(26,34,51,0.4);
+}
+
+body.light-mode #about {
+    border-top: 0.5px solid rgba(26,34,51,0.1);
 }
 
 @media (max-width: 768px) {
