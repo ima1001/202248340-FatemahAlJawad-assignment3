@@ -821,6 +821,27 @@ body.light-mode .card-desc {
     color: rgba(26,34,51,0.55);
 }
 
+body.light-mode .simple-form {
+    background: #dde3ed;
+    border-color: rgba(0,0,0,0.07);
+    color: #1a2233;
+}
+
+body.light-mode .simple-form label {
+    color: #1a2233;
+}
+
+body.light-mode .social-btn {
+    background: #dde3ed;
+    border-color: rgba(26,34,51,0.15);
+    color: rgba(26,34,51,0.75);
+}
+
+body.light-mode .social-btn:hover {
+    background: #cdd5e2;
+    color: #1a2233;
+}
+
 
 @media (max-width: 768px) {
 
