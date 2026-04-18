@@ -127,4 +127,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadWeather();
 
+    // ── Dark Mode Toggle ─────────────────────────────────
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggle.textContent = '🌙';
+    }
+
+    themeToggle.addEventListener('click', function () {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        themeToggle.textContent = isLight ? '🌙' : '☀️';
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
+
 });
