@@ -50,7 +50,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         });
-    }); // ← forEach closes HERE, not after the countdown
+    });
+
+    
+    // ── Dark Mode Toggle ─────────────────────────────────
+    const themeToggle = document.getElementById('theme-toggle');
+
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggle.textContent = '🌙';
+    }
+
+    themeToggle.addEventListener('click', function () {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        themeToggle.textContent = isLight ? '🌙' : '☀️';
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    });
 
     // ── Graduation Countdown ─────────────────────────────
     const graduationDate = new Date('2027-05-15T00:00:00');
@@ -124,21 +140,6 @@ document.addEventListener("DOMContentLoaded", function () {
             error.classList.remove('hidden');
         }
     }
-
-    // ── Dark Mode Toggle ─────────────────────────────────
-    const themeToggle = document.getElementById('theme-toggle');
-
-    if (localStorage.getItem('theme') === 'light') {
-        document.body.classList.add('light-mode');
-        themeToggle.textContent = '🌙';
-    }
-
-    themeToggle.addEventListener('click', function () {
-        document.body.classList.toggle('light-mode');
-        const isLight = document.body.classList.contains('light-mode');
-        themeToggle.textContent = isLight ? '🌙' : '☀️';
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    });
 
     loadWeather();
 });
