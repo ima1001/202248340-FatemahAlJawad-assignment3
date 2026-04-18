@@ -404,6 +404,10 @@ button:not(.skill-badge):not(.filter-btn):not(.btn):not(#theme-toggle):hover {
     padding: 20px;
 }
 
+.skill-card-dark {
+    background-color: #313131;
+}
+
 .skill-card-title {
     font-size: 11px;
     font-weight: 500;
