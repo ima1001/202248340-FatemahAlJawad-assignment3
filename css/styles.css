@@ -950,6 +950,16 @@ body.light-mode #theme-toggle:hover {
     border-color: rgba(26,34,51,0.5) !important;
     color: #1a2233 !important;
 }
+
+body.light-mode .skill-card {
+    background: #dde3ed;
+    border-color: rgba(26,34,51,0.08);
+}
+
+body.light-mode .skill-card-title {
+    color: rgba(26,34,51,0.4);
+}
+
 @media (max-width: 768px) {
 
     .name h1 {
