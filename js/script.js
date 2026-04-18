@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ── Weather Widget ───────────────────────────────────
     async function loadWeather() {
-        const apiKey = CONFIG.WEATHER_API_KEY;
+        const apiKey = '24494aeba29c2073411418c1a91844c2';
         const city   = 'Dhahran';
         const url    = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
