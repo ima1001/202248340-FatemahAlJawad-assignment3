@@ -669,4 +669,14 @@ html, body {
     .skills-grid {
         grid-template-columns: 1fr;
     }
+
+    /* ── Graduation Countdown ─────────── */
+    .countdown-eyebrow{
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.35);
+        margin-bottom: 10px;
+    }
+
 }
