@@ -11,6 +11,7 @@
 <body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
 <script src="js/script.js"></script>
 <header>
     <nav class="navbar navbar-expand-lg" id="main-nav">
@@ -318,7 +319,7 @@
                         <img src="src/assets/images/linkedin.webp" class="social-icon" alt="LinkedIn"> LinkedIn
                     </a>
                 </div>
-            </div>  <!-- ← closes contact-left -->
+            </div>
 
             <form class="card simple-form">
                 <div class="form-group">
@@ -338,9 +339,34 @@
             </form>
 
         </div> 
+        </section>
+        </section>
     </section>
-</section>
-</section>
+    <!-- Weather Widget -->
+    <footer id="weather-footer">
+        <div id="weather-widget">
+            <div id="weather-loading">Fetching weather...</div>
+            <div id="weather-content" class="hidden">
+                <div id="weather-left">
+                    <span id="weather-emoji">🌤</span>
+                    <div>
+                        <p id="weather-city">Dhahran, SA</p>
+                        <p id="weather-desc">--</p>
+                    </div>
+                </div>
+                <div id="weather-right">
+                    <span id="weather-temp">--</span>
+                    <div id="weather-meta">
+                        <span id="weather-humidity">💧 --%</span>
+                        <span id="weather-wind">💨 -- km/h</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
 
 
 </body>
