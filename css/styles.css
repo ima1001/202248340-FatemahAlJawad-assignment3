@@ -842,6 +842,27 @@ body.light-mode .social-btn:hover {
     color: #1a2233;
 }
 
+body.light-mode #weather-footer {
+    background: #d4dae6;
+    border-top-color: rgba(0,0,0,0.07);
+}
+
+body.light-mode #weather-widget {
+    background: #dde3ed;
+    border-color: rgba(0,0,0,0.07);
+    color: #1a2233;
+}
+
+body.light-mode #weather-city,
+body.light-mode #weather-temp {
+    color: #1a2233;
+}
+
+body.light-mode #weather-desc,
+body.light-mode #weather-meta {
+    color: rgba(26,34,51,0.5);
+}
+
 
 @media (max-width: 768px) {
 
