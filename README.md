@@ -67,8 +67,7 @@ id-name-assignment3/
 ├── css/
 │   └── styles.css
 ├── js/
-│   ├── script.js
-│   └── config.js           ← not committed (see setup instructions)
+│   └── script.js
 ├── src/
 │   └── assets/
 │       └── images/
@@ -97,12 +96,7 @@ No installation or build tools required. This is a plain HTML/CSS/JS project.
    cd id-name-assignment3
    ```
 
-3. Set up the API key:
-   - Rename `js/config.example.js` to `js/config.js`
-   - Sign up for a free API key at [openweathermap.org](https://openweathermap.org/api)
-   - Replace `YOUR_API_KEY_HERE` in `config.js` with your key
-
-4. Open `index.html` in your browser:
+3. Open `index.html` in your browser:
    - Double-click `index.html`, or
    - Use **Live Server** in VS Code for best results
 
